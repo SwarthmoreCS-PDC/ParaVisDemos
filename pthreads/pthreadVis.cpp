@@ -1,5 +1,4 @@
 #include "pthreadVis.h"
-#include <pthread.h>
 #include <iostream>
 
 void *threadUpdate(void* info){
@@ -50,11 +49,11 @@ PThreadVis::PThreadVis(int numThreads, int w, int h, int d) :
     m_tinfo[i].id=i;
     pthread_create(&m_threads[i], nullptr, threadUpdate, (void*)&m_tinfo[i]);
   }
-  pthread_barrier_wait(&m_barrier);
-
 };
 
 PThreadVis::~PThreadVis(){
+  pthread_barrier_wait(&m_barrier);
+  pthread_barrier_destroy(&m_barrier);
   delete [] m_threads; m_threads=nullptr;
   delete [] m_tinfo; m_tinfo=nullptr;
 }

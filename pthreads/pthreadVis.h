@@ -1,11 +1,10 @@
 #pragma once
 
-
-#include "dataVisCPU.h"
+#include <dataVisCPU.h>
 #include <pthread.h>
 
 #ifdef __APPLE__
-#include "osx/pthread_barrier.h"
+#include <osx/pthread_barrier.h>
 #endif
 
 typedef struct {
