@@ -1,6 +1,5 @@
 #include "openMPVis.h"
 
-
 OpenMPVis::OpenMPVis(int w, int h, int d) :
    DataVisCPU(w,h,d), m_ticks(0){
    /* do nothing */

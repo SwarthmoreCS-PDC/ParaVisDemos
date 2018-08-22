@@ -6,10 +6,6 @@ project(qtdemos LANGUAGES CXX C)
 find_package(QtVis REQUIRED)
 
 add_library(compile_info INTERFACE)
-target_include_directories(compile_info
-  INTERFACE
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-)
 target_compile_features(compile_info
   INTERFACE
     $<BUILD_INTERFACE:cxx_nullptr>

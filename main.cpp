@@ -1,4 +1,4 @@
-#include "qtViewer.h"
+#include <qtViewer.h>
 #include "gradientVis.h"
 
 /* A Demo of how to use the parallel grid data visualization toolkit

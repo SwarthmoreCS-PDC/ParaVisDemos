@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dataVisCPU.h"
+#include <dataVisCPU.h>
 
 /* A single threaded gradient visualization */
 class GradientVis: public DataVisCPU {

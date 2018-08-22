@@ -1,7 +1,6 @@
 #pragma once
 
-#include "dataVisCPU.h"
-#include <omp.h>
+#include <dataVisCPU.h>
 
 /* An OpenMP gradient visualization */
 class OpenMPVis: public DataVisCPU {

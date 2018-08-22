@@ -13,8 +13,9 @@ GradientVis::~GradientVis(){
 void GradientVis::update() {
   int off;
   unsigned char val;
+  int c;
   for(int r=0; r<m_height; r++){
-    for(int c=0; c<m_width; c++){
+    for(c=0; c<m_width; c++){
       off = r*m_width+c;
       val = (unsigned char) (128. * r / m_height);
       val = (val+m_ticks)%128;
