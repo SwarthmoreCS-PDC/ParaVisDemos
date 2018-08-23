@@ -1,5 +1,5 @@
 #include "userBufferKernel.h"
-#include "handle_cuda_error.h"
+#include <handle_cuda_error.h>
 #include <unistd.h>
 
 __global__ void int_to_color(color3 *optr, const int *my_cuda_data, int ncols);

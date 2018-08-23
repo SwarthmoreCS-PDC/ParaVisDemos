@@ -1,6 +1,6 @@
 #pragma once
 
-#include "animator.h"
+#include <animator.h>
 #include <cuda.h>
 
 /* A CUDA Animation example that uses a separate

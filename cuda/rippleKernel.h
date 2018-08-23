@@ -1,6 +1,6 @@
 #pragma once
 
-#include "animator.h"
+#include <animator.h>
 #include <cuda.h>
 
 /* A CUDA Animation that displays a radial
@@ -9,7 +9,7 @@ class RippleKernel: public Animator {
 
 public:
   RippleKernel(): m_ticks(0){ };
-  ~RippleKernel(){};
+  ~RippleKernel() { /* do nothing */ };
 
   void update(ImageBuffer* img);
 

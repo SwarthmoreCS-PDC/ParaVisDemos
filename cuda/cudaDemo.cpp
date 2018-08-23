@@ -1,8 +1,8 @@
-#include "qtViewer.h"
-#include "dataVisCUDA.h"
 #include "juliaKernel.h"
 #include "rippleKernel.h"
 #include "userBufferKernel.h"
+#include <qtViewer.h>
+#include <dataVisCUDA.h>
 
 /* A Demo of how to use the parallel grid data visualization toolkit
  */
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 
   /* 2b. For CUDA based solutions, it is difficult to compile QtOpenGL
      and CUDA code in the same class, so we separate the process into
-     a Qt DataVisCUDA componenet, which users should not need to change
+     a Qt DataVisCUDA component, which users should not need to change
      and a separate CUDA specific Animator class. Users can write new classes
      derived from the Animator class that use CUDA code as shown in the
      examples below */
