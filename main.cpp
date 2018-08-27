@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   /* 1. Boilerplate code Create a QTViewer object with the argc, argv
      as the first arguments (needed by QT), and an optional title as the
      fifth argument */
-  QTViewer viewer(argc, argv, 10, 10, "QtCPU");
+  QTViewer viewer(argc, argv, 600, 500, "QtCPU");
 
   /* 2. Dynamically create a derived instance of the
      DataVis class. In the case of CUDA examples, we
