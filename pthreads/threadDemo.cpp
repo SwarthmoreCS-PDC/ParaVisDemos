@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
      as the first arguments (needed by QT), and an optional title as the
      fifth argument */
   /* TODO: use width, height to control size of window */
-  QTViewer viewer(argc, argv, 10, 10, "QtThreads");
+  QTViewer viewer(argc, argv, 600, 500, "QtThreads");
 
   /* 2. Dynamically create a derived instance of the
      DataVis class. In the case of CUDA examples, we

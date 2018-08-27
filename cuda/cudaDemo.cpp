@@ -11,8 +11,7 @@ int main(int argc, char *argv[]) {
   /* 1. Boilerplate code Create a QTViewer object with the argc, argv
      as the first arguments (needed by QT), and an optional title as the
      fifth argument */
-  /* TODO: use width, height to control size of window */
-  QTViewer viewer(argc, argv, 10, 10, "QtCUDA");
+  QTViewer viewer(argc, argv, 600, 500, "QtCUDA");
 
   /* 2. Dynamically create a derived instance of the
      DataVis class. In the case of CUDA examples, we
