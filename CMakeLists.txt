@@ -10,11 +10,15 @@ target_compile_features(compile_info
   INTERFACE
     $<BUILD_INTERFACE:cxx_nullptr>
 )
+set(c_lang "$<COMPILE_LANGUAGE:C>")
+set(debug_c_lang "$<AND:$<CONFIG:DEBUG>,${c_lang}>")
 set(cxx_lang "$<COMPILE_LANGUAGE:CXX>")
 set(debug_cxx_lang "$<AND:$<CONFIG:DEBUG>,${cxx_lang}>")
 target_compile_options(compile_info INTERFACE
   $<${cxx_lang}:$<BUILD_INTERFACE:-Wall>>
   $<${debug_cxx_lang}:$<BUILD_INTERFACE:-Wunused-parameter>>
+  $<${c_lang}:$<BUILD_INTERFACE:-Wall>>
+  $<${debug_c_lang}:$<BUILD_INTERFACE:-Wunused-parameter>>
 )
 
 #Add user generated files here and name of executable
@@ -27,6 +31,8 @@ target_link_libraries(cpuDemo QtVis::qtvis compile_info)
 set_target_properties(cpuDemo PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
 )
+
+add_subdirectory(cbindings)
 
 if(CMAKE_USE_PTHREADS_INIT)
   add_subdirectory(pthreads)
