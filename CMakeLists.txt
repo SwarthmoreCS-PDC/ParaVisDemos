@@ -32,6 +32,7 @@ set_target_properties(cpuDemo PROPERTIES
   RUNTIME_OUTPUT_DIRECTORY $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
 )
 
+add_subdirectory(data)
 add_subdirectory(cbindings)
 
 if(CMAKE_USE_PTHREADS_INIT)
