@@ -53,51 +53,57 @@ struct appl_data {
   color3 *image_buff;         /* pointer to single shared image buffer */
 };
 
-static char visi_name[] = "pthreads!";
 
-int init_state(struct appl_data *data, int r, int c, int tids, int iters);
-void *thr_main(void *args);
-void update_grid(struct appl_data *data, int start_c, int stop_c);
+
+int local_init_state(struct appl_data *data, int r, int c, int tids, int iters);
+void *local_thread_main(void *args);
+void local_update_grid(struct appl_data *data, int start_c, int stop_c);
+
 
 /**********************************************************/
+
+
 int main(int argc, char *argv[]) {
 
   int cols, rows, iters, numtids, i;
-  struct appl_data data;
-  pthread_t *all_ptids;
   visi_handle myhandle;
-  struct appl_data *info;
+  static char visi_name[] = "pthreads!";
+  struct appl_data *thread_info;
+  pthread_t *all_ptids;
 
-  /* default values: */
-  cols = DEFAULT_DIM;
-  rows = DEFAULT_DIM;
-  iters = DEFAULT_INTERS;
-  numtids = DEFAULT_TIDS;
-
+  /* init common thread info */
+  cols = rows = iters = 100;
+  numtids = 4;
   all_ptids = malloc(sizeof(pthread_t) * numtids);
-  init_state(&data, rows, cols, numtids, iters);
+  thread_info = malloc(sizeof(struct appl_data) * numtids);
+  local_init_state(&thread_info[0], rows, cols, numtids, iters);
 
+  /* main thread gets handle and image buffer from library  */
   myhandle = init_pthread_animation(numtids, rows, cols, visi_name);
+  thread_info[0].handle = myhandle;
+  thread_info[0].image_buff = get_animation_buffer(myhandle);
 
-  data.handle = myhandle;
-  data.image_buff = get_animation_buffer(myhandle);
+  /* create threads and pass a copy of handle to each
+     thread through its thread_info field */
   for (i = 0; i < numtids; i++) {
-    info = malloc(sizeof(struct appl_data));
-    *info = data;    // init common fields
-    info->mytid = i; // init thread specific fields
-
-    pthread_create(&all_ptids[i], NULL, thr_main, (void *)info);
+    thread_info[i] = thread_info[0];    // init common fields
+    thread_info[i].mytid = i; // init thread specific fields
+    pthread_create(&all_ptids[i], NULL, local_thread_main,
+       (void *)(&thread_info[i]));
   }
 
+  /* main thread triggers animation on handle */
   run_animation(myhandle, iters);
 
+  /* wait for exit, cleanup*/
   for (i = 0; i < numtids; i++) {
     pthread_join(all_ptids[i], NULL);
   }
   free(all_ptids);
+  free(thread_info);
 }
 /**********************************************************/
-void *thr_main(void *args) {
+void *local_thread_main(void *args) {
 
   struct appl_data *data;
   int iters, i, j, index, c, r, chunksize, start_c, stop_c;
@@ -126,13 +132,15 @@ void *thr_main(void *args) {
 
   if (iters == 0) {
     while (1) { /* run forever */
-      update_grid(data, start_c, stop_c);
+      local_update_grid(data, start_c, stop_c);
+      /* draw ready is a library function that blocks until
+         all other threads are also ready */
       draw_ready(data->handle);
       usleep(SLEEPYTIME);
     }
   } else {
     for (i = 0; i < iters; i++) { /* run some number of iters */
-      update_grid(data, start_c, stop_c);
+      local_update_grid(data, start_c, stop_c);
       draw_ready(data->handle);
       usleep(SLEEPYTIME);
     }
@@ -144,7 +152,7 @@ void *thr_main(void *args) {
 /*
  * returns 0 on success 1 on error
  */
-int init_state(struct appl_data *data, int r, int c, int t, int iters) {
+int local_init_state(struct appl_data *data, int r, int c, int t, int iters) {
 
   // TODO: add error checking of params
   data->iters = iters;
@@ -160,7 +168,7 @@ int init_state(struct appl_data *data, int r, int c, int t, int iters) {
   return 0;
 }
 /**********************************************************/
-void update_grid(struct appl_data *data, int start_c, int stop_c) {
+void local_update_grid(struct appl_data *data, int start_c, int stop_c) {
 
   int i, j, r, c, index, buff_i, iter;
   color3 *buff;
