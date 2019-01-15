@@ -24,9 +24,7 @@
  * (4) main thread call run_pthread_animation to
  * (5) wait for worker threads to exit, clean-up
  */
-#include "pthreadGridVisi.h"
-#include <cgridvisi.h>
-#include <pthread.h>
+#include <pthreadGridVisi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
