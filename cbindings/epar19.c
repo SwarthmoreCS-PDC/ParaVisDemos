@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
   thread_info = malloc(sizeof(struct appl_data) * numtids);
   local_init_state(&thread_info[0], rows, cols, numtids, iters);
 
-  /* main thread gets handle and image buffer from library  */
+  /* main process gets handle and image buffer from library  */
   myhandle = init_pthread_animation(numtids, rows, cols, visi_name);
   thread_info[0].handle = myhandle;
   thread_info[0].image_buff = get_animation_buffer(myhandle);
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
        (void *)(&thread_info[i]));
   }
 
-  /* main thread triggers animation on handle */
+  /* main process triggers animation on handle */
   run_animation(myhandle, iters);
 
   /* wait for exit, cleanup*/
