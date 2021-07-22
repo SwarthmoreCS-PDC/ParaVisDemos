@@ -57,6 +57,7 @@ if(CMAKE_CUDA_COMPILER)
   )
   target_compile_options(compile_info INTERFACE
       $<${cuda_lang}:$<BUILD_INTERFACE:${QVis_CUDA_ARCH}>>
+      $<${debug_cuda_lang}:$<BUILD_INTERFACE:${QVis_CUDA_ARCH}>>
   )
   #Sample cuda demos
   add_subdirectory(cuda)
